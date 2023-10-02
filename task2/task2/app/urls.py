@@ -1,4 +1,5 @@
 from django.urls import path, include
+from django.contrib import admin
 from rest_framework.routers import DefaultRouter
 from .views import CreateUserAPIView,ProjectViewSet,TaskViewSet,DocumentViewSet, CommentViewSet
 from rest_framework_simplejwt.views import (
@@ -18,3 +19,4 @@ urlpatterns = [
     path("", include(router.urls)),
 ]
 
+admin.site.urls

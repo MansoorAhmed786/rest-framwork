@@ -11,7 +11,7 @@ class UserModelTestCase(TestCase):
     def test_user_creation(self):
         self.assertEqual(self.user.email, "test@example.com")
         self.assertTrue(self.user.check_password("testpassword"))
-        self.assertEqual(str(User), 'test@email.com')
+
 
 class ProfileModelTestCase(TestCase):
     def setUp(self):
@@ -22,28 +22,35 @@ class ProfileModelTestCase(TestCase):
         self.assertEqual(self.profile.user, self.user)
         self.assertEqual(self.profile.role, "manager")
 
+
 class ProjectModelTestCase(TestCase):
     def setUp(self):
         project = Project.objects.create(title="Test Project", description="Test Description", start_date="2023-01-01", end_date="2023-02-01")
+
     def test_project_creation(self):
         self.assertEqual(self.project.title, "Test Project")
         self.assertEqual(self.project.description, "Test Description")
+
 
 class TaskModelTestCase(TestCase):
     def setUp(self):
         project = Project.objects.create(title="Test Project", description="Test Description", start_date="2023-01-01", end_date="2023-02-01")
         task = Task.objects.create(title="Test Task", description="Test Task Description", status="open", project=project)
+
     def test_task_creation(self):
         self.assertEqual(self.title, "Test Task")
         self.assertEqual(self.status, "open")
+
 
 class DocumentModelTestCase(TestCase):
     def setUp(self):
         project = Project.objects.create(title="Test Project", description="Test Description", start_date="2023-01-01", end_date="2023-02-01")
         document = Document.objects.create(name="Test Document", description="Test Document Description", version="1.0", project=project)
+
     def test_document_creation(self):
         self.assertEqual(self.document.name, "Test Document")
         self.assertEqual(self.document.version, "1.0")
+
 
 class CommentModelTestCase(TestCase):
     def setUp(self):

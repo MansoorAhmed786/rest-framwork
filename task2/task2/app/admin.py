@@ -1,8 +1,15 @@
-from django.contrib import admin
+from django.contrib import admin,messages
+from django.http import HttpResponseRedirect
+from django.urls import path
 from django.contrib.auth import admin as auth_admin
 from django.contrib.auth import get_user_model
 from .forms import UserChangeForm, UserCreationForm
 from .models import Profile,Project,Comment,Task,Document
+from django.core.management import call_command
+from django.contrib.auth.models import User
+from faker import Faker
+
+fake = Faker()
 
 User = get_user_model()
 @admin.register(User)
@@ -30,8 +37,28 @@ class UserAdmin(auth_admin.UserAdmin):
             },
         ),
     )
+
+
+class TaskAdmin(admin.ModelAdmin):
+    list_display = ('title', 'status', 'project', 'assignee')
+    list_filter = ('status', 'project', 'assignee')
+    search_fields = ('title', 'description')
+
+
+class DocumentAdmin(admin.ModelAdmin):
+    list_display = ('name', 'version', 'project')
+    list_filter = ('version', 'project')
+    search_fields = ('name', 'description')
+
+
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('text', 'author', 'created_at', 'task', 'project')
+    list_filter = ('created_at', 'project')
+    search_fields = ('text', 'author__email', 'task__title')
+
+
 admin.site.register(Profile)
 admin.site.register(Project)
-admin.site.register(Task)
-admin.site.register(Document)
-admin.site.register(Comment)
+admin.site.register(Task, TaskAdmin)
+admin.site.register(Document, DocumentAdmin)
+admin.site.register(Comment, CommentAdmin)

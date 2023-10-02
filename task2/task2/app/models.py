@@ -1,5 +1,4 @@
 from __future__ import unicode_literals
-from __future__ import division
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
@@ -11,6 +10,43 @@ from django.db import models
 from django.utils import timezone
 from django.db import transaction
 
+class ProjectChoices:
+    MANAGER = "manager"
+    QA = "qa"
+    DEVELOPER = "developer"
+    OPEN = "open"
+    REVIEW = "review"
+    WORKING = "working"
+    AWAITING = "awaiting_release"
+    QAWAITING = "waiting_qa"
+    ROLE_CHOICES = (
+        (MANAGER, MANAGER),
+        (QA, QA),
+        (DEVELOPER, DEVELOPER),
+    )
+
+    STATUS_CHOICES = (
+        (OPEN , OPEN),
+        (REVIEW , REVIEW),
+        (WORKING, WORKING),
+        (AWAITING, AWAITING),
+        (QAWAITING,QAWAITING)
+    )
+
+    @staticmethod
+    def get_roles(self):
+        role = []
+        for i in self.ROLE_CHOICES:
+            role.append(i[0])
+        return role
+
+    @staticmethod
+    def get_status(self):
+        status = []
+        for i in self.STATUS_CHOICES:
+            status.append(i[0])
+        return status
+    
 class UserManager(BaseUserManager):
     def _create_user(self, email, password, **extra_fields):
         if not email:
@@ -53,12 +89,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
-    ROLE_CHOICES = (
-        ('manager', 'Manager'),
-        ('QA', 'Quality Assurance'),
-        ('developer', 'Developer'),
-    )
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+    role = models.CharField(max_length=20, choices=ProjectChoices.ROLE_CHOICES)
     contact_number = models.CharField(max_length=15, null=True, blank=True)
 
     def __str__(self):
@@ -79,14 +110,7 @@ class Project(models.Model):
 class Task(models.Model):
     title = models.CharField(max_length=256)
     description = models.TextField()
-    STATUS_CHOICES = (
-        ('open', 'Open'),
-        ('review', 'Review'),
-        ('working', 'Working'),
-        ('awaiting_release', 'Awaiting Release'),
-        ('waiting_qa', 'Waiting QA'),
-    )
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES,default="open")
+    status = models.CharField(max_length=20, choices=ProjectChoices.STATUS_CHOICES,default="open")
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     assignee = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 

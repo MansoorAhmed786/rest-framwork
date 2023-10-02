@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from.models import User
 from django.utils import timezone
-from .models import Profile,Project,Task,Document,Comment
+from .models import Profile,Project,Task,Document,Comment,ProjectChoices
 
 class UserSignUpSerializer(serializers.Serializer):
     email = serializers.EmailField()
@@ -20,10 +20,9 @@ class UserSignUpSerializer(serializers.Serializer):
             raise serializers.ValidationError(
                 "User with this email already exists. Try again with different email"
             )
-
         if password1 != password2:
             raise serializers.ValidationError(f"Password and Paasword1 must be same!!!")
-        if role not in ["manager","QA","developer"]:
+        if role not in ProjectChoices.get_roles():
             raise serializers.ValidationError(f"{role} is not valid option")
 
         return data
@@ -40,16 +39,13 @@ class UserSignUpSerializer(serializers.Serializer):
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
-        # fields = '__all__'
         exclude = ['team_members']
 
     def validate(self,data):
-        print("valisate")
         start_date = data.get("start_date")
         end_data = data.get("end_date")
         if start_date >= end_data:
             raise serializers.ValidationError("start date can't be before end date!!")
-        
         return data
 
 class TaskSerializer(serializers.ModelSerializer):
@@ -59,9 +55,8 @@ class TaskSerializer(serializers.ModelSerializer):
 
         def validate(self, data):
             status = data.get('status')
-            if status not in ["open","review","working","awaiting_release","waiting_qa"]:
-                raise serializers.ValidationError(f"{status} is not valid option")
-
+            if status not in ProjectChoices.get_status():
+                raise serializers.ValidationError(f"{status} is not a valid option")
             return data
         
 class DocumentSelializer(serializers.ModelSerializer):
