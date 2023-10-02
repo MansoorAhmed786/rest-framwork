@@ -69,3 +69,20 @@ class CommentSelializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = '__all__'
+
+class DocumentRequestSerializer(serializers.Serializer):
+
+    project = serializers.IntegerField()
+
+    def validate(self,data):
+        project_id = data.get('project')
+        user = self.context.user
+        project = Project.objects.filter(pk=project_id).first()
+        if not project:
+            raise serializers.ValidationError(f"Project with ID {project_id} does not exist.")
+        tasks = Task.objects.filter(project=project).first()
+        if not tasks:
+            raise serializers.ValidationError(f"Tasks do not exist in the specified project.")
+        if tasks.assignee != user :
+            raise serializers.ValidationError(f"You are not allowed.")
+        return data
