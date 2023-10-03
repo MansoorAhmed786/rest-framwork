@@ -133,7 +133,7 @@ REST_FRAMEWORK = {
     )
 }
 from datetime import timedelta
-JWT_AUTH = {
-    'JWT_EXPIRATION_DELTA': timedelta(minutes=300),  # Set the token lifetime to 30 minutes
-    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),  # Optional: Set the refresh token lifetime to 7 days
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),  # Set the token lifetime to 30 minutes
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),  # Optional: Set the refresh token lifetime to 7 days
 }

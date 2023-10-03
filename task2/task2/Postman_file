@@ -1,0 +1,704 @@
+{
+	"info": {
+		"_postman_id": "093e004a-aff2-4b52-bf99-dd4385349201",
+		"name": "ProjectManagmentSystem",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30114846"
+	},
+	"item": [
+		{
+			"name": "Project",
+			"item": [
+				{
+					"name": "List",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}api/project/",
+							"host": [
+								"{{host}}api"
+							],
+							"path": [
+								"project",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetByID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}api/project/79",
+							"host": [
+								"{{host}}api"
+							],
+							"path": [
+								"project",
+								"79"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteByID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}api/project/78/",
+							"host": [
+								"{{host}}api"
+							],
+							"path": [
+								"project",
+								"78",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateProject",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"fyp\",\r\n    \"start_date\":\"2000-04-02\",\r\n    \"end_date\":\"2001-01-02\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}api/project/",
+							"host": [
+								"{{host}}api"
+							],
+							"path": [
+								"project",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateProject",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"final year project\",\r\n    \"start_date\": \"2000-04-02\",\r\n    \"end_date\": \"2001-01-02\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}api/project/79/",
+							"host": [
+								"{{host}}api"
+							],
+							"path": [
+								"project",
+								"79",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Task",
+			"item": [
+				{
+					"name": "Task",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}api/task/",
+							"host": [
+								"{{host}}api"
+							],
+							"path": [
+								"task",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetByID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}api/task/79",
+							"host": [
+								"{{host}}api"
+							],
+							"path": [
+								"task",
+								"79"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteByID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}api/task/78/",
+							"host": [
+								"{{host}}api"
+							],
+							"path": [
+								"task",
+								"78",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateTask",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"Front end\",\r\n    \"description\":\"React.js\",\r\n    \"project\":\"79\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}api/task/",
+							"host": [
+								"{{host}}api"
+							],
+							"path": [
+								"task",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateTask",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 79,\r\n    \"title\": \"Day\",\r\n    \"description\": \"Mean national trial spend artist final land relate. Rest together offer live law.\",\r\n    \"status\": \"review\",\r\n    \"project\": 79,\r\n    \"assignee\": 806\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}api/task/79/",
+							"host": [
+								"{{host}}api"
+							],
+							"path": [
+								"task",
+								"79",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Document",
+			"item": [
+				{
+					"name": "Document",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}api/document/",
+							"host": [
+								"{{host}}api"
+							],
+							"path": [
+								"document",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetByID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}api/document/2150",
+							"host": [
+								"{{host}}api"
+							],
+							"path": [
+								"document",
+								"2150"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteByID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk2NDIyMzY5LCJpYXQiOjE2OTYzMzU5NjksImp0aSI6IjcxMWU0MmU2MTVkYjRiNmU4YmRmODg1MTUzNjdjYTQ4IiwidXNlcl9pZCI6ODMyfQ.P2DA_xIAsANtgcTWmzavwmyItVoRxol94CW08WbX7kA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}api/document/2138/",
+							"host": [
+								"{{host}}api"
+							],
+							"path": [
+								"document",
+								"2138",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateDocument",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"name\": \"hour\",\r\n        \"description\": \"Prove tonight example see responsibility.\\nFire current stay former. Rich skin power music happy policy perform.\",\r\n        \"file\": null,\r\n        \"version\": \"3\",\r\n        \"project\": 200\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}api/document/",
+							"host": [
+								"{{host}}api"
+							],
+							"path": [
+								"document",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateDocument",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"day\",\r\n    \"description\": \"Prove tonight example see responsibility.\\nFire current stay former. Rich skin power music happy policy perform.\",\r\n    \"file\": null,\r\n    \"version\": \"3\",\r\n    \"project\": 200\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}api/document/2150/",
+							"host": [
+								"{{host}}api"
+							],
+							"path": [
+								"document",
+								"2150",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comment",
+			"item": [
+				{
+					"name": "Comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}api/comment/",
+							"host": [
+								"{{host}}api"
+							],
+							"path": [
+								"comment",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetByID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}api/comment/9334",
+							"host": [
+								"{{host}}api"
+							],
+							"path": [
+								"comment",
+								"9334"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteByID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}api/comment/9334/",
+							"host": [
+								"{{host}}api"
+							],
+							"path": [
+								"comment",
+								"9334",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateComment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"text\": \"Situationjklnlkmklnmmmmk senior authority left stay food movie contain. Each bill relate meet its spring. Animal work available finally church.\",\r\n        \"created_at\": \"2023-10-03T10:37:41.143624Z\",\r\n        \"author\": 822,\r\n        \"task\": 844,\r\n        \"project\": 184\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}api/comment/",
+							"host": [
+								"{{host}}api"
+							],
+							"path": [
+								"comment",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateComment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"text\": \"Situation senio;okmkl,ml;r authority left stay food movie contain. Each bill relate meet its spring. Animal work available finally church.\",\r\n        \"created_at\": \"2023-10-03T10:37:41.143624Z\",\r\n        \"author\": 822,\r\n        \"task\": 844,\r\n        \"project\": 184\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}api/comment/9337/",
+							"host": [
+								"{{host}}api"
+							],
+							"path": [
+								"comment",
+								"9337",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GenerateToken",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"gerald67@example.net\",\r\n    \"password\":\"mansoor786\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}api/token/",
+					"host": [
+						"{{host}}api"
+					],
+					"path": [
+						"token",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
