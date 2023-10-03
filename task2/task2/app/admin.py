@@ -7,6 +7,7 @@ from .forms import UserChangeForm, UserCreationForm
 from .models import Profile,Project,Comment,Task,Document
 from django.core.management import call_command
 from django.contrib.auth.models import User
+from .generate_fake_data import create_fake_data
 
 
 User = get_user_model()
@@ -38,6 +39,25 @@ class UserAdmin(auth_admin.UserAdmin):
 
 
 class TaskAdmin(admin.ModelAdmin):
+    change_list_template = 'admin/app/change_list.html'
+
+    def changeAvailability(self,request):
+        create_fake_data()
+        messages.add_message(request, messages.SUCCESS, 'Fake Data is Inserted successfully!')
+        return HttpResponseRedirect("../")
+
+
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path (
+                "change-avalibity/",
+                self.changeAvailability,
+                name="change-availability",
+            ),
+        ]
+        return  custom_urls + urls
+
     list_display = ('__str__', 'status', 'project', 'assignee')
     list_filter = ('status', 'project', 'assignee')
     search_fields = ('title', 'description')
@@ -48,6 +68,8 @@ class DocumentAdmin(admin.ModelAdmin):
     list_filter = ('version', 'project')
     search_fields = ('name', 'description')
 
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('__str__','role')
 
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'author', 'created_at', 'task', 'project')
@@ -55,7 +77,7 @@ class CommentAdmin(admin.ModelAdmin):
     search_fields = ('text', 'author__email', 'task__title')
 
 
-admin.site.register(Profile)
+admin.site.register(Profile,ProfileAdmin)
 admin.site.register(Project)
 admin.site.register(Task, TaskAdmin)
 admin.site.register(Document, DocumentAdmin)
