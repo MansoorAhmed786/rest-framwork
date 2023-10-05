@@ -29,6 +29,7 @@ class UserSignUpSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         password = validated_data.pop("password")
+        password2 = validated_data.pop("password2")
         role = validated_data.pop("role")
         user = User.objects.create_user(**validated_data)
         user.set_password(password)
@@ -58,7 +59,8 @@ class TaskSerializer(serializers.ModelSerializer):
             if status not in ProjectChoices.get_status():
                 raise serializers.ValidationError(f"{status} is not a valid option")
             return data
-        
+
+  
 class DocumentSelializer(serializers.ModelSerializer):
     class Meta:
         model = Document
@@ -77,13 +79,16 @@ class DocumentRequestSerializer(serializers.Serializer):
     def validate(self,data):
         project_id = data.get('project')
         request = self.context.get('request')
+        user = request.user
+        role = user.profile.role
+        if role == 'manager':
+            return data
         project = Project.objects.filter(pk=project_id).first()
         if not project:
             raise serializers.ValidationError(f"Project with ID {project_id} does not exist.")
         tasks = Task.objects.filter(project=project).first()
         if not tasks:
             raise serializers.ValidationError(f"Tasks do not exist in the specified project.")
-        # print(request)
         if tasks.assignee != request.user :
             raise serializers.ValidationError(f"You are not allowed.")
         return data

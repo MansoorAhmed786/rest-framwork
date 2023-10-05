@@ -33,19 +33,19 @@ class ProjectViewSet(ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(status=status.HTTP_201_CREATED,data=request.data)
+        return Response(status=status.HTTP_201_CREATED,data=serializer.data)
 
     def update(self, request, *args, **kwargs):
         user = request.user
         role =user.profile.role
         if role!=ProjectChoices.MANAGER:
             return Response(status=status.HTTP_403_FORBIDDEN,data={"details":"you dont have permission to access!"})
-        partial = kwargs.pop('partial', False)
+        partial = kwargs.pop('partial', True)
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(status=status.HTTP_200_OK,data=request.data)
+        return Response(status=status.HTTP_200_OK,data=serializer.data)
 
     def list(self, request, *args, **kwargs):
         user = request.user
@@ -103,7 +103,7 @@ class TaskViewSet(ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(status=status.HTTP_201_CREATED,data=request.data)
+        return Response(status=status.HTTP_201_CREATED,data=serializer.data)
 
 
     def list(self, request, *args, **kwargs):
@@ -134,12 +134,12 @@ class TaskViewSet(ModelViewSet):
         role = user.profile.role
         if role != ProjectChoices.MANAGER:
             return Response(status=status.HTTP_403_FORBIDDEN,data={"details":"you dont have permission to access!"})
-        partial = kwargs.pop('partial', False)
+        partial = kwargs.pop('partial', True)
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(status=status.HTTP_200_OK,data=request.data)
+        return Response(status=status.HTTP_200_OK,data=serializer.data)
     
     def delete(self, request, *args, **kwargs):
         user = request.user
@@ -184,11 +184,7 @@ class DocumentViewSet(ModelViewSet):
     def create(self,request,*args,**kwargs):
         request_serializer = DocumentRequestSerializer(data = request.data,context = {'request':request})
         request_serializer.is_valid(raise_exception=True)
-        # request_serializer.save()
-        # serializer = self.get_serializer(data=request.data)
-        # serializer.is_valid(raise_exception=True)
-        # serializer.save()
-        return Response(status=status.HTTP_201_CREATED,data=request.data)
+        return Response(status=status.HTTP_201_CREATED,data=request_serializer.data)
 
     def list(self, request, *args, **kwargs):
         user = request.user
@@ -213,12 +209,12 @@ class DocumentViewSet(ModelViewSet):
         role =user.profile.role
         if role != ProjectChoices.MANAGER:
             return Response(status=status.HTTP_403_FORBIDDEN,data={"details":"you dont have permission to access!"})
-        partial = kwargs.pop('partial', False)
+        partial = kwargs.pop('partial', True)
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid()
         serializer.save()
-        return Response(status=status.HTTP_200_OK,data=request.data)
+        return Response(status=status.HTTP_200_OK,data=serializer.data)
     
     def delete(self, request, *args, **kwargs):
         user = request.user
@@ -247,7 +243,14 @@ class CommentViewSet(ModelViewSet):
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
-            return Response(status=status.HTTP_201_CREATED,data=request.data)
+            return Response(status=status.HTTP_201_CREATED,data=serializer.data)
+        elif role == ProjectChoices.MANAGER:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED,data=serializer.data)
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN,data={"details":"Project doesnot exist!"})
 
     def list(self, request, *args, **kwargs):
         user = request.user
@@ -266,7 +269,7 @@ class CommentViewSet(ModelViewSet):
         role =user.profile.role
         if role != ProjectChoices.MANAGER:
             return Response(status=status.HTTP_403_FORBIDDEN,data={"details":"you dont have permission to access!"})
-        partial = kwargs.pop('partial', False)
+        partial = kwargs.pop('partial', True)
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)

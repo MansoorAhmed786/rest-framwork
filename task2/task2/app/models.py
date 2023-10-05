@@ -33,17 +33,17 @@ class ProjectChoices:
         (QAWAITING,QAWAITING)
     )
 
-    @staticmethod
-    def get_roles(self):
+    @classmethod
+    def get_roles(cls):
         role = []
-        for i in self.ROLE_CHOICES:
+        for i in cls.ROLE_CHOICES:
             role.append(i[0])
         return role
 
-    @staticmethod
-    def get_status(self):
+    @classmethod
+    def get_status(cls):
         status = []
-        for i in self.STATUS_CHOICES:
+        for i in cls.STATUS_CHOICES:
             status.append(i[0])
         return status
     
