@@ -1,11 +1,10 @@
-from faker import Faker
-import random
+from app.models import Comment, Document, Profile, Project, Task
 from django.contrib.auth import get_user_model
-from app.models import Project, Task, Document, Comment, Profile,ProjectChoices
-from datetime import timedelta
+from faker import Faker
 
 User = get_user_model()
 fake = Faker()
+
 
 def create_fake_data():
     User.objects.exclude(is_superuser=True).delete()
@@ -26,7 +25,7 @@ def create_fake_data():
         Profile.objects.create(
             user=user,
             profile_picture=None,
-            role=fake.random_element(elements=["manager","QA","developer"]),
+            role=fake.random_element(elements=["manager", "QA", "developer"]),
             contact_number=fake.phone_number(),
         )
         users.append(user)
@@ -48,7 +47,15 @@ def create_fake_data():
                     task = Task.objects.create(
                         title=fake.word(),
                         description=fake.text(),
-                        status=fake.random_element(elements=["open","review","working","awaiting_release","waiting_qa"]),
+                        status=fake.random_element(
+                            elements=[
+                                "open",
+                                "review",
+                                "working",
+                                "awaiting_release",
+                                "waiting_qa"
+                            ]
+                        ),
                         project=project,
                         assignee=fake.random_element(elements=users),
                     )
@@ -58,7 +65,7 @@ def create_fake_data():
                         Document.objects.create(
                             name=fake.word(),
                             description=fake.text(),
-                            file=None, 
+                            file=None,
                             version=fake.random_number(digits=1),
                             project=project,
                         )

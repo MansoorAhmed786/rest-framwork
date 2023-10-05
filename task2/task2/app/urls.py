@@ -1,17 +1,21 @@
-from django.urls import path, include
 from django.contrib import admin
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter
-from .views import CreateUserAPIView,ProjectViewSet,TaskViewSet,DocumentViewSet, CommentViewSet
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
+from .views import (
+    CommentViewSet,
+    CreateUserAPIView,
+    DocumentViewSet,
+    ProjectViewSet,
+    TaskViewSet,
 )
 
 router = DefaultRouter()
-router.register("project", ProjectViewSet,basename="project")
-router.register("task", TaskViewSet,basename="task")
-router.register("document", DocumentViewSet,basename="document")
-router.register("comment", CommentViewSet,basename="comment")
+router.register("project", ProjectViewSet, basename="project")
+router.register("task", TaskViewSet, basename="task")
+router.register("document", DocumentViewSet, basename="document")
+router.register("comment", CommentViewSet, basename="comment")
 urlpatterns = [
     path('create/', CreateUserAPIView.as_view()),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

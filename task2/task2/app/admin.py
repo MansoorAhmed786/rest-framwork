@@ -1,16 +1,16 @@
-from django.contrib import admin,messages
-from django.http import HttpResponseRedirect
-from django.urls import path
+from django.contrib import admin, messages
 from django.contrib.auth import admin as auth_admin
 from django.contrib.auth import get_user_model
-from .forms import UserChangeForm, UserCreationForm
-from .models import Profile,Project,Comment,Task,Document
-from django.core.management import call_command
-from django.contrib.auth.models import User
-from .generate_fake_data import create_fake_data
+from django.http import HttpResponseRedirect
+from django.urls import path
 
+from .forms import UserChangeForm, UserCreationForm
+from .generate_fake_data import create_fake_data
+from .models import Comment, Document, Profile, Project, Task
 
 User = get_user_model()
+
+
 @admin.register(User)
 class UserAdmin(auth_admin.UserAdmin):
     form = UserChangeForm
@@ -41,22 +41,22 @@ class UserAdmin(auth_admin.UserAdmin):
 class TaskAdmin(admin.ModelAdmin):
     change_list_template = 'admin/app/change_list.html'
 
-    def changeAvailability(self,request):
+    def changeAvailability(self, request):
         create_fake_data()
-        messages.add_message(request, messages.SUCCESS, 'Fake Data is Inserted successfully!')
+        messages.add_message(request, messages.SUCCESS,
+                             'Fake Data is Inserted successfully!')
         return HttpResponseRedirect("../")
-
 
     def get_urls(self):
         urls = super().get_urls()
         custom_urls = [
-            path (
+            path(
                 "change-avalibity/",
                 self.changeAvailability,
                 name="change-availability",
             ),
         ]
-        return  custom_urls + urls
+        return custom_urls + urls
 
     list_display = ('__str__', 'status', 'project', 'assignee')
     list_filter = ('status', 'project', 'assignee')
@@ -68,8 +68,10 @@ class DocumentAdmin(admin.ModelAdmin):
     list_filter = ('version', 'project')
     search_fields = ('name', 'description')
 
+
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('__str__','role')
+    list_display = ('__str__', 'role')
+
 
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'author', 'created_at', 'task', 'project')
@@ -77,7 +79,7 @@ class CommentAdmin(admin.ModelAdmin):
     search_fields = ('text', 'author__email', 'task__title')
 
 
-admin.site.register(Profile,ProfileAdmin)
+admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Project)
 admin.site.register(Task, TaskAdmin)
 admin.site.register(Document, DocumentAdmin)
