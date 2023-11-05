@@ -1,14 +1,10 @@
 from __future__ import unicode_literals
-from django.contrib.auth.models import PermissionsMixin
-from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
-from django.db import models
+
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.models import BaseUserManager, PermissionsMixin
+from django.db import models, transaction
 from django.utils import timezone
-from django.contrib.auth.models import AbstractUser, BaseUserManager
-from django.db import models
-from django.utils.translation import gettext_lazy as _
-from django.db import models
-from django.utils import timezone
-from django.db import transaction
+
 
 class ProjectChoices:
     MANAGER = "manager"
@@ -26,11 +22,11 @@ class ProjectChoices:
     )
 
     STATUS_CHOICES = (
-        (OPEN , OPEN),
-        (REVIEW , REVIEW),
+        (OPEN, OPEN),
+        (REVIEW, REVIEW),
         (WORKING, WORKING),
         (AWAITING, AWAITING),
-        (QAWAITING,QAWAITING)
+        (QAWAITING, QAWAITING)
     )
 
     @classmethod
@@ -46,19 +42,17 @@ class ProjectChoices:
         for i in cls.STATUS_CHOICES:
             status.append(i[0])
         return status
-    
+
+
 class UserManager(BaseUserManager):
     def _create_user(self, email, password, **extra_fields):
         if not email:
             raise ValueError('The given email must be set')
-        try:
-            with transaction.atomic():
-                user = self.model(email=email, **extra_fields)
-                user.set_password(password)
-                user.save(using=self._db)
-                return user
-        except:
-            raise
+        with transaction.atomic():
+            user = self.model(email=email, **extra_fields)
+            user.set_password(password)
+            user.save(using=self._db)
+            return user
 
     def create_user(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', False)
@@ -81,6 +75,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
+
     def save(self, *args, **kwargs):
         super(User, self).save(*args, **kwargs)
         return self
@@ -88,7 +83,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
+    profile_picture = models.ImageField(
+        upload_to='profile_pictures/', null=True, blank=True)
     role = models.CharField(max_length=20, choices=ProjectChoices.ROLE_CHOICES)
     contact_number = models.CharField(max_length=15, null=True, blank=True)
 
@@ -110,9 +106,18 @@ class Project(models.Model):
 class Task(models.Model):
     title = models.CharField(max_length=256)
     description = models.TextField()
-    status = models.CharField(max_length=20, choices=ProjectChoices.STATUS_CHOICES,default="open")
+    status = models.CharField(
+        max_length=20,
+        choices=ProjectChoices.STATUS_CHOICES,
+        default=ProjectChoices.OPEN
+    )
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    assignee = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    assignee = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return self.title
@@ -121,8 +126,8 @@ class Task(models.Model):
 class Document(models.Model):
     name = models.CharField(max_length=256)
     description = models.TextField()
-    file = models.FileField(null=True,blank=True,upload_to='documents/')
-    version = models.CharField(max_length=10,default="0.0")
+    file = models.FileField(null=True, blank=True, upload_to='documents/')
+    version = models.CharField(max_length=10, default="0.0")
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
 
     def __str__(self):
